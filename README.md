@@ -6,6 +6,7 @@
   <li>Error handlings</li>
   <li>Auth</li>
   <li>responsive ui</li>
+  <li>toggle todo as completed</li>
  </ul>
 
 <p>Backend hosted on heroku</p>
