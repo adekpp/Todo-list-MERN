@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = process.env.REACT_APP_API
+const API =
+  process.env.REACT_APP_API
 
 export const getTodos = createAsyncThunk("todos/getTodos", async () => {
   const response = await axios.get(API);
@@ -23,6 +24,17 @@ export const updateTodo = createAsyncThunk(
   async (updatedTodo) => {
     const { id, title } = updatedTodo;
     const response = await axios.patch(`${API}/${id}`, { title: title });
+    return response.data;
+  }
+);
+
+export const toggleCompleted = createAsyncThunk(
+  "todos/toggleCompleted",
+  async (updatedTodo) => {
+    const { id, completed } = updatedTodo;
+    const response = await axios.patch(`${API}/${id}`, {
+      completed: completed,
+    });
     return response.data;
   }
 );
@@ -76,6 +88,16 @@ const todosSlice = createSlice({
       state.loading = false;
     },
     [updateTodo.rejected]: (state, action) => {
+      state.error = action.error;
+      state.loading = false;
+    },
+    [toggleCompleted.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [toggleCompleted.fulfilled]: (state, action) => {
+      state.loading = false;
+    },
+    [toggleCompleted.rejected]: (state, action) => {
       state.error = action.error;
       state.loading = false;
     },

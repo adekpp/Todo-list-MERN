@@ -4,7 +4,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
-import { getTodos, deleteTodo, updateTodo } from "../../feauters/todosSlice";
+import {
+  getTodos,
+  deleteTodo,
+  updateTodo,
+  toggleCompleted,
+} from "../../feauters/todosSlice";
 
 export const SingleTodo = ({ todo }) => {
   const [editTodo, setEditTodo] = useState(false);
@@ -32,6 +37,17 @@ export const SingleTodo = ({ todo }) => {
     setEditTodo(false);
   };
 
+  const handleToggleCompleted = () => {
+    const updatedTodo = {
+      id: todo._id,
+      completed: todo.completed ? false : true,
+    };
+
+    dispatch(toggleCompleted(updatedTodo)).then(() => {
+      dispatch(getTodos());
+    });
+  };
+
   return (
     <li className="flex flex-row bg-sky-500 w-full justify-between px-3 py-2 shadow-md text-white">
       <div>
@@ -49,7 +65,12 @@ export const SingleTodo = ({ todo }) => {
             />
           </div>
         ) : (
-          <p className="font-semibold">{todo.title}</p>
+          <p
+            onClick={handleToggleCompleted}
+            className={`font-semibold ${todo.completed && `line-through`}`}
+          >
+            {todo.title}
+          </p>
         )}
       </div>
       <div className="flex gap-2">
