@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = "http://localhost:5000/todos";
+const API = process.env.REACT_APP_API
 
 export const getTodos = createAsyncThunk("todos/getTodos", async () => {
   const response = await axios.get(API);
