@@ -5,6 +5,7 @@
 <ul>
   <li>Error handlings</li>
   <li>Auth</li>
+  <li>responsive ui</li>
  </ul>
 
 <p>Backend hosted on heroku</p>
