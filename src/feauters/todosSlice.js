@@ -1,71 +1,70 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const API =
-  process.env.REACT_APP_API
+import UserService from "../services/user.service";
 
 export const getTodos = createAsyncThunk("todos/getTodos", async () => {
-  const response = await axios.get(API);
+  const response = await UserService.getTodos();
   return response.data;
 });
 
 export const addTodo = createAsyncThunk("todos/addTodo", async (todo) => {
-  const response = await axios.post(API, todo);
+  const response = await UserService.createTodo({ title: todo });
   return response.data;
 });
 
 export const deleteTodo = createAsyncThunk("todos/deleteTodo", async (id) => {
-  const response = await axios.delete(`${API}/${id}`);
+  const response = await UserService.deleteTodo(id);
   return response.data;
 });
 
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
   async (updatedTodo) => {
-    const { id, title } = updatedTodo;
-    const response = await axios.patch(`${API}/${id}`, { title: title });
+    const response = await UserService.updateTodo(updatedTodo);
     return response.data;
   }
 );
 
-export const toggleCompleted = createAsyncThunk(
-  "todos/toggleCompleted",
+export const updateCompleted = createAsyncThunk(
+  "todos/updateCompleted",
   async (updatedTodo) => {
-    const { id, completed } = updatedTodo;
-    const response = await axios.patch(`${API}/${id}`, {
-      completed: completed,
-    });
+    const response = await UserService.updateCompleted(updatedTodo);
     return response.data;
   }
 );
 
 const initialState = {
   todos: [],
-  loadingTodos: false,
-  error: null,
   loading: false,
+  error: null,
 };
 
 const todosSlice = createSlice({
   name: "todos",
   initialState,
+  reducers: {
+    clearTodos: (state) => {
+      state.todos = [];
+    },
+  },
   extraReducers: {
     [getTodos.pending]: (state, action) => {
-      state.loadingTodos = true;
+      state.loading = true;
     },
     [getTodos.fulfilled]: (state, action) => {
-      state.loadingTodos = false;
+      state.loading = false;
       state.todos = action.payload;
     },
     [getTodos.rejected]: (state, action) => {
       state.error = action.error;
-      state.loadingTodos = false;
+      state.loading = false;
     },
     [addTodo.pending]: (state, action) => {
       state.loading = true;
     },
     [addTodo.fulfilled]: (state, action) => {
       state.loading = false;
+      const newTodo = action.payload.newTodo;
+      state.todos.unshift(newTodo);
     },
     [addTodo.rejected]: (state, action) => {
       state.error = action.error;
@@ -74,34 +73,51 @@ const todosSlice = createSlice({
     [deleteTodo.pending]: (state, action) => {
       state.loading = true;
     },
+
     [deleteTodo.fulfilled]: (state, action) => {
       state.loading = false;
+      const newTodos = state.todos.filter(
+        (todo) => todo._id !== action.payload._id
+      );
+      state.todos = newTodos;
     },
+
     [deleteTodo.rejected]: (state, action) => {
       state.error = action.error;
       state.loading = false;
     },
+
     [updateTodo.pending]: (state, action) => {
       state.loading = true;
     },
     [updateTodo.fulfilled]: (state, action) => {
       state.loading = false;
+      const updatedTodo = action.payload;
+      const newTodos = state.todos.map((todo) => {
+        if (todo._id === updatedTodo._id) {
+          return updatedTodo;
+        }
+        return todo;
+      });
+      state.todos = newTodos;
     },
     [updateTodo.rejected]: (state, action) => {
       state.error = action.error;
       state.loading = false;
     },
-    [toggleCompleted.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [toggleCompleted.fulfilled]: (state, action) => {
+    [updateCompleted.fulfilled]: (state, action) => {
       state.loading = false;
-    },
-    [toggleCompleted.rejected]: (state, action) => {
-      state.error = action.error;
-      state.loading = false;
+      const updatedTodo = action.payload;
+      const newTodos = state.todos.map((todo) => {
+        if (todo._id === updatedTodo._id) {
+          return updatedTodo;
+        }
+        return todo;
+      });
+      state.todos = newTodos;
     },
   },
 });
 
+export const { clearTodos } = todosSlice.actions;
 export default todosSlice.reducer;
