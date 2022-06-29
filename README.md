@@ -1,5 +1,6 @@
 # Todo list with MERN stack
-<p>Only basic CRUD operations.</p>
+<p>Existing user for testing:</p>
+<p>username: test password: test</p>
 
 <p>In progress:</p>
 <ul>
