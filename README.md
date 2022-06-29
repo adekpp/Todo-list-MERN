@@ -3,10 +3,11 @@
 
 <p>In progress:</p>
 <ul>
-  <li>Error handlings</li>
-  <li>Auth</li>
+  <li><del>Error handlings</del></li>
+  <li><del>Auth</del></li>
   <li>responsive ui</li>
   <li><del>toggle todo as completed</del></li>
+  <li>sharing list to other users</li>
  </ul>
 
 <p>Backend hosted on heroku</p>
