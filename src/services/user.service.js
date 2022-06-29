@@ -18,7 +18,7 @@ const createTodo = (todo) => {
 const updateTodo = (updatedTodo) => {
   const { id, title, completed } = updatedTodo;
   return axios.patch(
-    `${API_URL}/todos` + id,
+    `${API_URL}/todos/` + id,
     { title: title, completed: completed },
     { headers: authHeader() }
   );
@@ -27,14 +27,14 @@ const updateTodo = (updatedTodo) => {
 const updateCompleted = (updatedTodo) => {
   const { id, title, completed } = updatedTodo;
   return axios.patch(
-    `${API_URL}/todos` + id,
+    `${API_URL}/todos/` + id,
     { title: title, completed: completed },
     { headers: authHeader() }
   );
 };
 
 const deleteTodo = (id) => {
-  return axios.delete(`${API_URL}/todos` + id, { headers: authHeader() });
+  return axios.delete(`${API_URL}/todos/` + id, { headers: authHeader() });
 };
 
 const UserService = {
