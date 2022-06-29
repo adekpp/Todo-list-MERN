@@ -11,4 +11,4 @@
   <li>sharing list to other users</li>
  </ul>
 
-<p>Backend hosted on heroku</p>
+<p>Backend hosted on heroku, be patient ;-)</p>
