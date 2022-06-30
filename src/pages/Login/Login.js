@@ -8,7 +8,6 @@ import ReportIcon from "@mui/icons-material/Report";
 import Icon from "../../googleicon.svg";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 export const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
@@ -117,7 +116,16 @@ export const Login = () => {
               </AnimatePresence>
             </label>
             <button className="bg-gray-600 rounded-sm text-white py-2 drop-shadow-md hover:bg-gray-500 active:scale-90">
-              {loading ? ( <CircularProgress size={20} /> ) : ( <span>Login</span> )}
+              {loading ? (
+                <CircularProgress
+                  size={20}
+                  sx={{
+                    color: "white",
+                  }}
+                />
+              ) : (
+                <span>Login</span>
+              )}
             </button>
           </form>
           <p

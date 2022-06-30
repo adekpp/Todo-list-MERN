@@ -114,7 +114,16 @@ export const Register = () => {
               </AnimatePresence>
             </label>
             <button className="bg-gray-600 rounded-sm text-white py-2 drop-shadow-md hover:bg-gray-500 active:scale-90">
-              {loading ? ( <CircularProgress size={20} /> ) : "Register"}
+              {loading ? (
+                <CircularProgress
+                  size={20}
+                  sx={{
+                    color: "white",
+                  }}
+                />
+              ) : (
+                "Register"
+              )}
             </button>
           </form>
           <p
