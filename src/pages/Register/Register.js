@@ -6,12 +6,13 @@ import { clearTodos } from "../../feauters/todosSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import ReportIcon from "@mui/icons-material/Report";
 import Icon from "../../googleicon.svg";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const Register = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { user, regError } = useSelector((state) => state.auth);
+  const { user, regError, loading } = useSelector((state) => state.auth);
   const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -113,7 +114,7 @@ export const Register = () => {
               </AnimatePresence>
             </label>
             <button className="bg-gray-600 rounded-sm text-white py-2 drop-shadow-md hover:bg-gray-500 active:scale-90">
-              Register
+              {loading ? ( <CircularProgress size={20} /> ) : "Register"}
             </button>
           </form>
           <p

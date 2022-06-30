@@ -6,12 +6,14 @@ import { clearTodos } from "../../feauters/todosSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import ReportIcon from "@mui/icons-material/Report";
 import Icon from "../../googleicon.svg";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 export const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { user, loginError } = useSelector((state) => state.auth);
+  const { user, loginError, loading } = useSelector((state) => state.auth);
   const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -115,7 +117,7 @@ export const Login = () => {
               </AnimatePresence>
             </label>
             <button className="bg-gray-600 rounded-sm text-white py-2 drop-shadow-md hover:bg-gray-500 active:scale-90">
-              Login
+              {loading ? ( <CircularProgress size={20} /> ) : ( <span>Login</span> )}
             </button>
           </form>
           <p
